@@ -336,6 +336,29 @@
   }
   .acc-entry button:active{background:var(--paper-panel);}
 
+  /* ---------- guestbook ---------- */
+  .guestbook{background:var(--paper);}
+  .gb-intro{text-align:center; font-size:13.5px; color:var(--ink-2); margin:0 0 22px;}
+  .gb-form{display:flex; flex-direction:column; gap:10px; margin-bottom:26px;}
+  .gb-form input, .gb-form textarea{
+    font-family:inherit; font-size:14px; padding:12px 14px; border:1px solid var(--line);
+    border-radius:3px; background:var(--paper-panel); color:var(--ink-strong); resize:vertical;
+  }
+  .gb-form textarea{min-height:74px;}
+  .gb-form button{
+    align-self:flex-end; background:var(--ink); color:#fff; border:none; font-size:13px;
+    letter-spacing:.05em; padding:12px 22px; border-radius:3px; cursor:pointer;
+  }
+  .gb-form button:active{background:var(--ink-strong);}
+  .gb-form button:disabled{opacity:.5; cursor:default;}
+  .gb-list{display:flex; flex-direction:column; gap:10px;}
+  .gb-item{background:var(--paper-panel); border-radius:4px; padding:14px 16px;}
+  .gb-item .top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px;}
+  .gb-item .name{font-size:13.5px; font-weight:700; color:var(--ink);}
+  .gb-item .time{font-size:11px; color:var(--ink-2);}
+  .gb-item .msg{font-size:13.5px; color:var(--ink-strong); line-height:1.6; white-space:pre-wrap;}
+  .gb-empty, .gb-status{text-align:center; font-size:13px; color:var(--ink-2); padding:20px 0;}
+
   /* ---------- share ---------- */
   .share{background:var(--paper-panel); text-align:center;}
   .share p{font-size:13.5px; color:var(--ink-2); margin:0 0 20px;}
@@ -530,6 +553,23 @@
     </div>
   </section>
 
+  <section class="guestbook reveal">
+    <div class="section-head">
+      <span class="kicker accent">Guestbook</span>
+      <h2>방명록</h2>
+      <div class="rule"></div>
+    </div>
+    <p class="gb-intro">축하의 마음을 남겨주세요</p>
+    <div class="gb-form">
+      <input id="gbName" type="text" placeholder="이름" maxlength="20">
+      <textarea id="gbMsg" placeholder="축하 메시지를 남겨주세요" maxlength="300"></textarea>
+      <button id="gbSubmit">남기기</button>
+    </div>
+    <div class="gb-list" id="gbList">
+      <div class="gb-status">방명록을 불러오는 중이에요…</div>
+    </div>
+  </section>
+
   <section class="share reveal">
     <div class="section-head">
       <span class="kicker accent">Share</span>
@@ -712,6 +752,96 @@
     closeLightbox();
   });
 })();
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, query, orderBy, limit, onSnapshot, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCS52LLVfyMY7qKgvd-944mrxnuPBk-OS8",
+    authDomain: "gunhee-jungeun-wedding.firebaseapp.com",
+    projectId: "gunhee-jungeun-wedding",
+    storageBucket: "gunhee-jungeun-wedding.firebasestorage.app",
+    messagingSenderId: "446508555210",
+    appId: "1:446508555210:web:f54d4496f7c109c5ac4d33"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const listEl = document.getElementById('gbList');
+  const nameEl = document.getElementById('gbName');
+  const msgEl = document.getElementById('gbMsg');
+  const submitBtn = document.getElementById('gbSubmit');
+
+  function gbToast(msg){
+    var t = document.getElementById('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._gbh);
+    t._gbh = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  function formatTime(date){
+    if(!date) return '';
+    var mm = date.getMonth() + 1, dd = date.getDate();
+    var hh = String(date.getHours()).padStart(2, '0');
+    var mi = String(date.getMinutes()).padStart(2, '0');
+    return mm + '.' + dd + ' ' + hh + ':' + mi;
+  }
+
+  var gbQuery = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'), limit(100));
+  onSnapshot(gbQuery, function(snap){
+    if(snap.empty){
+      listEl.innerHTML = '<div class="gb-empty">첫 축하 메시지를 기다리고 있어요</div>';
+      return;
+    }
+    var html = '';
+    snap.forEach(function(doc){
+      var data = doc.data();
+      var time = data.createdAt ? formatTime(data.createdAt.toDate()) : '';
+      html += '<div class="gb-item"><div class="top"><span class="name">' + escapeHtml(data.name || '') +
+        '</span><span class="time">' + time + '</span></div><div class="msg">' + escapeHtml(data.message || '') + '</div></div>';
+    });
+    listEl.innerHTML = html;
+  }, function(err){
+    listEl.innerHTML = '<div class="gb-status">방명록을 불러오지 못했어요</div>';
+    console.error(err);
+  });
+
+  submitBtn.addEventListener('click', function(){
+    var name = nameEl.value.trim();
+    var message = msgEl.value.trim();
+    if(!name || !message){
+      gbToast('이름과 메시지를 모두 입력해주세요');
+      return;
+    }
+    submitBtn.disabled = true;
+    addDoc(collection(db, 'guestbook'), {
+      name: name,
+      message: message,
+      createdAt: serverTimestamp()
+    }).then(function(){
+      nameEl.value = '';
+      msgEl.value = '';
+      gbToast('메시지가 등록되었습니다');
+    }).catch(function(err){
+      gbToast('메시지 등록에 실패했어요');
+      console.error(err);
+    }).finally(function(){
+      submitBtn.disabled = false;
+    });
+  });
 </script>
 
 </body>
