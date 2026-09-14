@@ -66,7 +66,7 @@
     object-fit:cover; object-position:center 30%;
     opacity:0;
     transform:scale(.45) translateY(10%);
-    transition:opacity 2s cubic-bezier(.22,1,.36,1), transform 2s cubic-bezier(.22,1,.36,1);
+    transition:opacity 1.5s cubic-bezier(.22,1,.36,1), transform 1.5s cubic-bezier(.22,1,.36,1);
     will-change:opacity, transform;
   }
   #introOverlay.open .introFull{
@@ -77,7 +77,7 @@
     position:relative; z-index:2;
     width:min(58vw,240px);
     filter:drop-shadow(0 20px 36px rgba(66,54,41,.4));
-    transition:opacity 1.1s ease-out;
+    transition:opacity .85s ease-out;
     will-change:opacity;
   }
   #introOverlay .introCardImg{
@@ -90,7 +90,7 @@
     position:relative; z-index:2;
     display:flex; flex-direction:column; align-items:center; gap:8px;
     text-align:center;
-    transition:opacity 1s ease-out;
+    transition:opacity .75s ease-out;
     will-change:opacity;
   }
   #introOverlay.open .introChrome{opacity:0;}
@@ -571,7 +571,7 @@
       overlay.style.display = 'none';
       html.classList.remove('locked');
       initReveal();
-    }, 2000);
+    }, 1500);
   }
   overlay.addEventListener('click', openIntro);
 
