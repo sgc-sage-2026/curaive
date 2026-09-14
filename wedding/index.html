@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2027. 01. 02. 강건희 & 박정은의 결혼식</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식">
+<meta property="og:image" content="https://sgc-sage-2026.github.io/curaive/wedding/cover-card.jpg">
+<meta property="og:url" content="https://sgc-sage-2026.github.io/curaive/wedding/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식">
+<meta name="twitter:image" content="https://sgc-sage-2026.github.io/curaive/wedding/cover-card.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#423629;
+    --ink-2:#7a6a54;
+    --ink-strong:#2c241b;
+    --sky:#a0c0cd;
+    --sky-deep:#7ea5b3;
+    --sky-pale:#eaf3f6;
+    --paper:#f8f5ef;
+    --paper-panel:#eef4f5;
+    --line:#ddd3bf;
+    --line-soft:#dce8ea;
+    --shadow:0 10px 30px -14px rgba(66,54,41,.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{background:var(--ink); scroll-behavior:smooth;}
+  html.locked, html.locked body{overflow:hidden; height:100%;}
+
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--ink-strong);
+    font-family:"Hahmlet", serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .page{
+    max-width:460px;
+    margin:0 auto;
+    background:var(--paper);
+    position:relative;
+    box-shadow:0 0 60px rgba(0,0,0,.35);
+    overflow:hidden;
+  }
+
+  .accent{font-family:"Hahmlet", serif; font-weight:300;}
+  .serif{font-family:"Hahmlet", serif;}
+
+  /* ---------- intro popup: cover-0 fades, cover rises up from behind ---------- */
+  #introOverlay{
+    position:fixed; inset:0; z-index:80;
+    background:var(--paper);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px;
+    max-width:460px; margin:0 auto;
+    overflow:hidden;
+  }
+  #introOverlay .introFull{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center 30%;
+    opacity:0;
+    transform:scale(.45) translateY(10%);
+    transition:opacity 2s cubic-bezier(.22,1,.36,1), transform 2s cubic-bezier(.22,1,.36,1);
+    will-change:opacity, transform;
+  }
+  #introOverlay.open .introFull{
+    opacity:1;
+    transform:scale(1) translateY(0);
+  }
+  #introOverlay .introCardWrap{
+    position:relative; z-index:2;
+    width:min(58vw,240px);
+    filter:drop-shadow(0 20px 36px rgba(66,54,41,.4));
+    transition:opacity 1.1s ease-out;
+    will-change:opacity;
+  }
+  #introOverlay .introCardImg{
+    display:block; width:100%; height:auto; border-radius:2px;
+  }
+  #introOverlay.open .introCardWrap{
+    opacity:0;
+  }
+  #introOverlay .introChrome{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    text-align:center;
+    transition:opacity 1s ease-out;
+    will-change:opacity;
+  }
+  #introOverlay.open .introChrome{opacity:0;}
+  #introOverlay .eyebrow{
+    color:var(--ink-2); letter-spacing:.32em; font-size:11px; font-weight:500;
+  }
+  #introOverlay .introNames{
+    color:var(--ink); font-size:24px; font-weight:600; letter-spacing:.02em;
+  }
+  #introOverlay .introHint{
+    margin-top:2px; color:var(--ink-2); font-size:12px; letter-spacing:.08em;
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:.55;} 50%{opacity:1;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:min(100svh,760px);
+    display:flex; align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center 30%;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(66,54,41,0) 40%, rgba(66,54,41,.55) 100%);
+  }
+  .hero-copy{
+    position:relative; z-index:2;
+    width:100%;
+    padding:0 32px 44px;
+    color:#fff;
+    text-align:center;
+  }
+  .hero-copy .eyebrow{
+    letter-spacing:.34em; font-size:11px; font-weight:500; color:var(--sky-pale);
+    margin-bottom:14px;
+  }
+  .hero-copy h1{
+    font-family:"Hahmlet", serif;
+    font-weight:600;
+    font-size:clamp(26px,7vw,32px);
+    margin:0 0 10px;
+    letter-spacing:.02em;
+  }
+  .hero-copy .hero-date{
+    font-size:13px; letter-spacing:.08em; color:rgba(255,255,255,.88); line-height:1.7;
+  }
+  .scroll-cue{
+    position:relative; z-index:2;
+    display:flex; justify-content:center; padding-bottom:18px; margin-top:15px;
+  }
+  .scroll-cue svg{animation:bob 1.6s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);}}
+
+  /* ---------- scroll reveal ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .5s cubic-bezier(.22,1,.36,1), transform .5s cubic-bezier(.22,1,.36,1);
+    will-change:opacity, transform;
+  }
+  .reveal.in-view{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  /* ---------- generic section rhythm ---------- */
+  section{padding:64px 30px;}
+  .section-head{text-align:center; margin-bottom:32px;}
+  .section-head .kicker{
+    display:block; font-size:11px; letter-spacing:.3em; color:var(--sky-deep);
+    font-weight:500; margin-bottom:10px;
+  }
+  .section-head h2{
+    font-family:"Hahmlet", serif; font-weight:600;
+    font-size:22px; margin:0; color:var(--ink);
+  }
+  .rule{
+    width:34px; height:1px; background:var(--line); margin:18px auto 0;
+  }
+
+  /* ---------- greeting ---------- */
+  .greeting{background:var(--paper);}
+  .greeting p{
+    font-family:"Hahmlet", serif;
+    font-size:16.5px; line-height:2; text-align:center; color:var(--ink-strong);
+    margin:0 auto; max-width:30ch;
+  }
+  .signature{
+    margin-top:30px; text-align:center; font-size:14px; color:var(--ink-2); letter-spacing:.03em;
+    line-height:1.9;
+  }
+
+  /* ---------- info card ---------- */
+  .info{background:var(--paper-panel);}
+  .info-card{
+    background:var(--paper);
+    border:1px solid var(--line-soft);
+    border-radius:4px;
+    box-shadow:var(--shadow);
+    padding:30px 26px;
+  }
+  .info-row{
+    display:flex; gap:16px; padding:14px 0;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .info-row:last-child{border-bottom:none;}
+  .info-row .label{
+    flex:0 0 64px; font-size:12px; letter-spacing:.12em; color:var(--sky-deep); font-weight:500; padding-top:2px;
+  }
+  .info-row .value{flex:1; font-size:15px; line-height:1.6; color:var(--ink-strong);}
+  .info-row .value .sub{display:block; font-size:12.5px; color:var(--ink-2); margin-top:3px;}
+  .value-group{margin-bottom:14px;}
+  .value-group:last-child{margin-bottom:0;}
+  .value-group .group-label{
+    display:block; font-size:11.5px; color:var(--sky-deep); font-weight:500;
+    letter-spacing:.04em; margin-bottom:4px;
+  }
+
+  .dday{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    margin-top:22px; padding-top:22px; border-top:1px dashed var(--line);
+    font-family:"Hahmlet", serif; color:var(--ink);
+  }
+  .dday .num{font-size:20px; font-weight:700; letter-spacing:.02em;}
+
+  /* ---------- calendar ---------- */
+  .calendar{background:var(--paper);}
+  .cal-card{
+    background:var(--paper-panel);
+    border-radius:4px; padding:26px 20px 22px;
+  }
+  .cal-month{
+    text-align:center; font-family:"Hahmlet", serif; font-weight:300;
+    font-size:20px; color:var(--ink); margin-bottom:16px; letter-spacing:.04em;
+  }
+  .cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; text-align:center;}
+  .cal-grid .dow{font-size:11px; color:var(--ink-2); padding-bottom:8px; letter-spacing:.05em;}
+  .cal-grid .day{
+    aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+    font-size:13px; color:var(--ink-strong); border-radius:50%;
+  }
+  .cal-grid .day.blank{visibility:hidden;}
+  .cal-grid .day.wedding{
+    background:var(--ink); color:#fff; font-weight:700;
+    box-shadow:0 4px 12px -4px rgba(66,54,41,.5);
+  }
+  .cal-grid .day.sat{color:var(--sky-deep);}
+
+  /* ---------- gallery ---------- */
+  .gallery{background:var(--paper-panel);}
+  .gal-row{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;}
+  .gal-row.wide{grid-template-columns:1fr;}
+  .gal-card{
+    position:relative; aspect-ratio:3/4; border-radius:3px; overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .gal-card.wide{aspect-ratio:4912/3264;}
+  .gal-card img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    cursor:pointer;
+  }
+  .gal-card::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background:linear-gradient(180deg, rgba(66,54,41,0) 68%, rgba(66,54,41,.5) 100%);
+  }
+  .gal-card .scene{
+    position:absolute; z-index:1; right:12px; bottom:11px; color:rgba(255,255,255,.9);
+    font-family:"Hahmlet", serif; font-weight:300; font-size:14px;
+    pointer-events:none;
+  }
+
+  /* ---------- lightbox ---------- */
+  #lightbox{
+    position:fixed; inset:0; z-index:95;
+    background:rgba(44,36,27,.94);
+    display:flex; align-items:center; justify-content:center; padding:28px;
+    max-width:460px; margin:0 auto;
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease;
+  }
+  #lightbox.show{opacity:1; pointer-events:auto;}
+  #lightbox img{
+    max-width:100%; max-height:100%; border-radius:4px;
+    box-shadow:0 24px 60px rgba(0,0,0,.5);
+  }
+  #lightbox .lb-close{
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,.14); border:none; color:#fff; font-size:18px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ---------- location ---------- */
+  .location{background:var(--paper);}
+  .map-frame{
+    height:150px; border-radius:4px; margin-bottom:20px;
+    position:relative; overflow:hidden;
+  }
+  .map-frame img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:cover; object-position:center 25%;
+  }
+  .venue-name{text-align:center; font-family:"Hahmlet",serif; font-size:18px; color:var(--ink); margin-bottom:4px;}
+  .venue-addr{text-align:center; font-size:13.5px; color:var(--ink-2); margin-bottom:2px;}
+  .venue-transit{text-align:center; font-size:13.5px; color:var(--ink-2); margin-bottom:22px;}
+  .map-btns{display:flex; gap:8px;}
+  .map-btns a{
+    flex:1; text-align:center; padding:12px 6px; border-radius:3px;
+    border:1px solid var(--line); font-size:12.5px; color:var(--ink); text-decoration:none;
+    letter-spacing:.02em;
+  }
+  .map-btns a:active{background:var(--paper-panel);}
+
+  /* ---------- accounts ---------- */
+  .accounts{background:var(--paper-panel);}
+  .acc-note{text-align:center; font-size:12px; color:var(--ink-2); margin-bottom:22px; line-height:1.7;}
+  .acc-tabs{display:flex; margin-bottom:2px;}
+  .acc-tab{
+    flex:1; text-align:center; padding:12px 0; font-size:14px; letter-spacing:.03em;
+    color:var(--ink-2); background:transparent; border:none; border-bottom:2px solid var(--line);
+    font-family:"Hahmlet",serif; cursor:pointer;
+  }
+  .acc-tab.active{color:var(--ink); border-bottom-color:var(--ink); font-weight:600;}
+  .acc-panel{display:none; padding-top:18px;}
+  .acc-panel.active{display:block;}
+  .acc-entry{
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+    background:var(--paper); border:1px solid var(--line-soft); border-radius:4px;
+    padding:14px 16px; margin-bottom:10px;
+  }
+  .acc-entry .who{font-size:13px; color:var(--ink-2); margin-bottom:3px;}
+  .acc-entry .num{font-size:14.5px; color:var(--ink-strong); font-variant-numeric:tabular-nums;}
+  .acc-entry .num.pending{color:var(--ink-2); font-style:normal; font-size:13px;}
+  .acc-entry button{
+    flex:0 0 auto; border:1px solid var(--line); background:var(--paper);
+    color:var(--ink); font-size:12px; padding:8px 12px; border-radius:3px; cursor:pointer;
+  }
+  .acc-entry button:active{background:var(--paper-panel);}
+
+  /* ---------- share ---------- */
+  .share{background:var(--paper-panel); text-align:center;}
+  .share p{font-size:13.5px; color:var(--ink-2); margin:0 0 20px;}
+  .share-btns{display:flex; gap:10px;}
+  .share-btns button{
+    flex:1; padding:14px 0; border-radius:3px; font-size:13.5px; letter-spacing:.03em; cursor:pointer;
+  }
+  .share-btns .primary{background:var(--ink); color:#fff; border:none;}
+  .share-btns .primary:active{background:var(--ink-strong);}
+  .share-btns .ghost{background:transparent; border:1px solid var(--line); color:var(--ink);}
+  .share-btns .ghost:active{background:var(--paper);}
+
+  /* ---------- closing ---------- */
+  .closing{background:var(--ink); text-align:center; padding:70px 30px 56px;}
+  .closing .mark{font-family:"Hahmlet",serif; font-weight:300; font-size:15px; color:var(--sky-pale); margin-bottom:10px;}
+  .closing .names{font-family:"Hahmlet",serif; font-size:19px; color:#fff; margin-bottom:6px;}
+  .closing .date{font-size:11.5px; color:rgba(255,255,255,.6); letter-spacing:.08em;}
+
+  /* toast */
+  #toast{
+    position:fixed; left:50%; bottom:28px; transform:translate(-50%,12px);
+    background:var(--ink-strong); color:#fff; font-size:13px; padding:11px 18px;
+    border-radius:20px; opacity:0; pointer-events:none; transition:all .25s ease;
+    z-index:90; max-width:80%; text-align:center;
+  }
+  #toast.show{opacity:1; transform:translate(-50%,0);}
+
+  @media (prefers-reduced-motion: reduce){
+    #introOverlay .introFull, #introOverlay .introCardWrap, #introOverlay .introChrome{transition:none;}
+    .scroll-cue svg, .introHint{animation:none;}
+    .reveal{opacity:1 !important; transform:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div id="introOverlay">
+    <img class="introFull" src="cover-full.jpg" alt="">
+    <div class="introCardWrap">
+      <img class="introCardImg" src="cover-card.jpg" alt="">
+    </div>
+    <div class="introChrome">
+      <span class="eyebrow accent">WEDDING INVITATION</span>
+      <span class="introNames serif">강건희 · 박정은</span>
+      <span class="introHint">눌러서 청첩장 열기</span>
+    </div>
+  </div>
+
+  <section class="hero" id="hero">
+    <img class="hero-bg" src="cover-full.jpg" alt="">
+    <div class="hero-copy">
+      <span class="eyebrow accent">Save the date</span>
+      <h1 class="serif">강건희 · 박정은</h1>
+      <div class="hero-date">2027. 01. 02 SAT PM 2:00<br>르비르모어</div>
+    </div>
+  </section>
+  <div class="scroll-cue">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 7l6 6 6-6" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+
+  <section class="greeting reveal">
+    <div class="section-head">
+      <span class="kicker accent">Invitation</span>
+      <h2>초대합니다</h2>
+      <div class="rule"></div>
+    </div>
+    <p>함께한 열 번의 계절을 지나,<br>새로운 시작 앞에 섰습니다.<br><br>함께 축복해주시면<br>더없는 기쁨으로 간직하겠습니다.</p>
+    <div class="signature serif">강성호 · 최미례의 장남 강건희<br>박재천 · 이경화의 차녀 박정은</div>
+  </section>
+
+  <section class="info reveal">
+    <div class="section-head">
+      <span class="kicker accent">Details</span>
+      <h2>예식 안내</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="info-card">
+      <div class="info-row">
+        <div class="label">날짜</div>
+        <div class="value">2027년 1월 2일 토요일<span class="sub">오후 2시</span></div>
+      </div>
+      <div class="info-row">
+        <div class="label">장소</div>
+        <div class="value">르비르모어<span class="sub">서울 강남구 테헤란로 406<br>샹제리제센터</span></div>
+      </div>
+      <div class="info-row">
+        <div class="label">교통</div>
+        <div class="value">
+          <div class="value-group"><span class="group-label">대중교통 이용시</span>2호선 · 수인분당선 선릉역<span class="sub">1번 출구 앞</span></div>
+          <div class="value-group"><span class="group-label">자차 이용시</span>450대 주차 가능<span class="sub">2시간 무료</span></div>
+        </div>
+      </div>
+      <div class="dday">
+        <span class="num" id="ddayNum">D-DAY</span>
+        <span>까지 남은 시간</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="calendar reveal">
+    <div class="section-head">
+      <span class="kicker accent">Calendar</span>
+      <h2>날짜를 기억해주세요</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="cal-card">
+      <div class="cal-month">January 2027</div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </section>
+
+  <section class="gallery reveal">
+    <div class="section-head">
+      <span class="kicker accent">Gallery</span>
+      <h2>두 계절의 기록</h2>
+      <div class="rule"></div>
+    </div>
+
+    <div class="gal-row">
+      <div class="gal-card"><img src="gallery-01-summer.jpg" alt="사진 01"><span class="scene">01</span></div>
+      <div class="gal-card"><img src="gallery-01-winter.jpg" alt="사진 02"><span class="scene">02</span></div>
+    </div>
+    <div class="gal-row">
+      <div class="gal-card"><img src="gallery-02-summer.jpg" alt="사진 03"><span class="scene">03</span></div>
+      <div class="gal-card"><img src="gallery-02-winter.jpg" alt="사진 04"><span class="scene">04</span></div>
+    </div>
+    <div class="gal-row">
+      <div class="gal-card"><img src="gallery-03-summer.jpg" alt="사진 05"><span class="scene">05</span></div>
+      <div class="gal-card"><img src="gallery-03-winter.jpg" alt="사진 06"><span class="scene">06</span></div>
+    </div>
+    <div class="gal-row">
+      <div class="gal-card"><img src="gallery-04-summer.jpg" alt="사진 07"><span class="scene">07</span></div>
+      <div class="gal-card"><img src="gallery-04-winter.jpg" alt="사진 08"><span class="scene">08</span></div>
+    </div>
+    <div class="gal-row">
+      <div class="gal-card"><img src="gallery-05-summer.jpg" alt="사진 09"><span class="scene">09</span></div>
+      <div class="gal-card"><img src="gallery-05-winter.jpg" alt="사진 10"><span class="scene">10</span></div>
+    </div>
+    <div class="gal-row wide">
+      <div class="gal-card wide"><img src="gallery-07-summer.jpg" alt="사진 11"><span class="scene">11</span></div>
+    </div>
+    <div class="gal-row wide">
+      <div class="gal-card wide"><img src="gallery-07-winter.jpg" alt="사진 12"><span class="scene">12</span></div>
+    </div>
+    <div class="gal-row wide">
+      <div class="gal-card wide"><img src="gallery-06-summer.jpg" alt="사진 13"><span class="scene">13</span></div>
+    </div>
+    <div class="gal-row wide">
+      <div class="gal-card wide"><img src="gallery-06-winter.jpg" alt="사진 14"><span class="scene">14</span></div>
+    </div>
+  </section>
+
+  <section class="location reveal">
+    <div class="section-head">
+      <span class="kicker accent">Location</span>
+      <h2>오시는 길</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="map-frame">
+      <img src="cover-full.jpg" alt="">
+    </div>
+    <div class="venue-name serif">르비르모어</div>
+    <div class="venue-addr">서울 강남구 테헤란로 406 (대치동, 샹제리제센터)</div>
+    <div class="venue-transit">2호선 · 수인분당선 선릉역 1번 출구 앞</div>
+    <div class="map-btns">
+      <a id="mapNaver" target="_blank" rel="noopener">네이버 지도</a>
+      <a id="mapKakao" target="_blank" rel="noopener">카카오맵</a>
+      <a id="mapGoogle" target="_blank" rel="noopener">Google Maps</a>
+    </div>
+  </section>
+
+  <section class="accounts reveal">
+    <div class="section-head">
+      <span class="kicker accent">Gift</span>
+      <h2>마음 전하기</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="acc-note">축하하는 마음만으로 충분합니다.<br>따로 준비해주시는 분들을 위해 안내드려요.</div>
+    <div class="acc-tabs">
+      <button class="acc-tab active" data-tab="groom">신랑측</button>
+      <button class="acc-tab" data-tab="bride">신부측</button>
+    </div>
+    <div class="acc-panel active" id="panel-groom">
+      <div class="acc-entry"><div><div class="who">신랑 강건희</div><div class="num">카카오뱅크 3333-33-9655992</div></div><button data-copy="3333339655992">복사</button></div>
+      <div class="acc-entry"><div><div class="who">신랑 아버지 강성호</div><div class="num">국민은행 793301-01-650680</div></div><button data-copy="79330101650680">복사</button></div>
+      <div class="acc-entry"><div><div class="who">신랑 어머니 최미례</div><div class="num">농협 599-02-005250</div></div><button data-copy="59902005250">복사</button></div>
+    </div>
+    <div class="acc-panel" id="panel-bride">
+      <div class="acc-entry"><div><div class="who">신부 박정은</div><div class="num">카카오뱅크 3333-12-0938270</div></div><button data-copy="3333120938270">복사</button></div>
+      <div class="acc-entry"><div><div class="who">신부 아버지 박재천</div><div class="num pending">계좌번호는 추후 안내드릴게요</div></div></div>
+    </div>
+  </section>
+
+  <section class="share reveal">
+    <div class="section-head">
+      <span class="kicker accent">Share</span>
+      <h2>청첩장 공유하기</h2>
+      <div class="rule"></div>
+    </div>
+    <p>소중한 분들에게 저희의 시작을 전해주세요</p>
+    <div class="share-btns">
+      <button class="primary" id="copyLinkBtn">링크 복사</button>
+    </div>
+  </section>
+
+  <div class="closing reveal">
+    <div class="mark accent">Thank you</div>
+    <div class="names serif">강건희 &amp; 박정은</div>
+    <div class="date">2027. 01. 02</div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div id="lightbox">
+    <button class="lb-close" aria-label="닫기">&#10005;</button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+</div>
+
+<script>
+(function(){
+  var html = document.documentElement;
+  html.classList.add('locked');
+
+  var overlay = document.getElementById('introOverlay');
+  var opened = false;
+  function openIntro(){
+    if(opened) return;
+    opened = true;
+    overlay.classList.add('open');
+    setTimeout(function(){
+      overlay.style.display = 'none';
+      html.classList.remove('locked');
+      initReveal();
+    }, 2000);
+  }
+  overlay.addEventListener('click', openIntro);
+
+  function toast(msg){
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._h);
+    t._h = setTimeout(function(){ t.classList.remove('show'); }, 1800);
+  }
+
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve,reject){
+      try{
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        resolve();
+      }catch(e){ reject(e); }
+    });
+  }
+
+  /* D-day */
+  var wedding = new Date('2027-01-02T14:00:00+09:00');
+  function updateDday(){
+    var now = new Date();
+    var diff = Math.ceil((wedding - now) / 86400000);
+    var el = document.getElementById('ddayNum');
+    if(diff > 0) el.textContent = 'D-' + diff;
+    else if(diff === 0) el.textContent = 'D-DAY';
+    else el.textContent = 'D+' + Math.abs(diff);
+  }
+  updateDday();
+
+  /* calendar : January 2027, day1 = Friday(index5) */
+  var grid = document.getElementById('calGrid');
+  var dows = ['일','월','화','수','목','금','토'];
+  dows.forEach(function(d){
+    var el = document.createElement('div');
+    el.className = 'dow';
+    el.textContent = d;
+    grid.appendChild(el);
+  });
+  var firstDow = 5; // Fri
+  var daysInMonth = 31;
+  for(var i=0;i<firstDow;i++){
+    var b = document.createElement('div');
+    b.className = 'day blank';
+    grid.appendChild(b);
+  }
+  for(var d=1; d<=daysInMonth; d++){
+    var cell = document.createElement('div');
+    cell.className = 'day';
+    cell.textContent = d;
+    var dow = (firstDow + d - 1) % 7;
+    if(dow === 6) cell.classList.add('sat');
+    if(d === 2) cell.classList.add('wedding');
+    grid.appendChild(cell);
+  }
+
+  /* map links */
+  var address = '서울 강남구 테헤란로 406';
+  document.getElementById('mapNaver').href = 'https://map.naver.com/v5/search/' + encodeURIComponent(address);
+  document.getElementById('mapKakao').href = 'https://map.kakao.com/link/search/' + encodeURIComponent(address);
+  document.getElementById('mapGoogle').href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(address);
+
+  /* account tabs + copy */
+  var tabs = document.querySelectorAll('.acc-tab');
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      document.querySelectorAll('.acc-panel').forEach(function(p){ p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      copyText(btn.dataset.copy).then(function(){ toast('계좌번호가 복사되었습니다'); });
+    });
+  });
+
+  /* share section */
+  document.getElementById('copyLinkBtn').addEventListener('click', function(){
+    copyText(location.href).then(function(){ toast('링크가 복사되었습니다'); });
+  });
+
+  /* scroll reveal: started only once the intro closes, so sections
+     hidden behind the overlay don't silently mark themselves in-view
+     before the visitor can ever see them animate */
+  function initReveal(){
+    var revealEls = document.querySelectorAll('.reveal');
+    if('IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            entry.target.classList.add('in-view');
+            io.unobserve(entry.target);
+          }
+        });
+      }, {threshold:0.12, rootMargin:'0px 0px -10% 0px'});
+      revealEls.forEach(function(el){ io.observe(el); });
+    }else{
+      revealEls.forEach(function(el){ el.classList.add('in-view'); });
+    }
+  }
+
+  /* gallery lightbox */
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightboxImg');
+  function closeLightbox(){ lightbox.classList.remove('show'); }
+  document.querySelectorAll('.gal-card img').forEach(function(img){
+    img.addEventListener('click', function(){
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('show');
+    });
+  });
+  lightbox.addEventListener('click', closeLightbox);
+  document.querySelector('.lb-close').addEventListener('click', function(e){
+    e.stopPropagation();
+    closeLightbox();
+  });
+})();
+</script>
+
+</body>
+</html>
