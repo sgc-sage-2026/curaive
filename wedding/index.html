@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>2027. 01. 02. 강건희 & 박정은의 결혼식</title>
+<title>2027. 01. 02. 강건희 & 박정은의 결혼식에 소중한 분들을 초대합니다.</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식">
+<meta property="og:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식에 소중한 분들을 초대합니다.">
 <meta property="og:image" content="https://sgc-sage-2026.github.io/curaive/wedding/cover-full.jpg">
 <meta property="og:url" content="https://sgc-sage-2026.github.io/curaive/wedding/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식">
+<meta name="twitter:title" content="2027. 01. 02. 강건희 & 박정은의 결혼식에 소중한 분들을 초대합니다.">
 <meta name="twitter:image" content="https://sgc-sage-2026.github.io/curaive/wedding/cover-full.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -583,10 +583,7 @@
     t._h = setTimeout(function(){ t.classList.remove('show'); }, 1800);
   }
 
-  function copyText(text){
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      return navigator.clipboard.writeText(text);
-    }
+  function legacyCopy(text){
     return new Promise(function(resolve,reject){
       try{
         var ta = document.createElement('textarea');
@@ -595,11 +592,17 @@
         ta.style.opacity = '0';
         document.body.appendChild(ta);
         ta.focus(); ta.select();
-        document.execCommand('copy');
+        var ok = document.execCommand('copy');
         document.body.removeChild(ta);
-        resolve();
+        if(ok) resolve(); else reject(new Error('execCommand failed'));
       }catch(e){ reject(e); }
     });
+  }
+  function copyText(text){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text).catch(function(){ return legacyCopy(text); });
+    }
+    return legacyCopy(text);
   }
 
   /* D-day */
@@ -664,7 +667,12 @@
 
   /* share section */
   document.getElementById('copyLinkBtn').addEventListener('click', function(){
-    copyText('https://han.gl/lcSXr').then(function(){ toast('링크가 복사되었습니다'); });
+    var shortUrl = 'https://han.gl/lcSXr';
+    copyText(shortUrl).then(function(){
+      toast('링크가 복사되었습니다');
+    }).catch(function(){
+      window.prompt('아래 링크를 길게 눌러 복사해주세요', shortUrl);
+    });
   });
 
   /* scroll reveal: started only once the intro closes, so sections
