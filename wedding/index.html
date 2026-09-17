@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>강건희 & 박정은의 결혼식에 소중한 분들을 초대합니다</title>
 <meta property="og:type" content="website">
 <meta property="og:title" content="강건희 & 박정은의 결혼식에 소중한 분들을 초대합니다">
@@ -30,6 +30,7 @@
   }
 
   *{box-sizing:border-box;}
+  img{-webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;}
   html{background:var(--ink); scroll-behavior:smooth;}
   html.locked, html.locked body{overflow:hidden; height:100%;}
 
@@ -593,6 +594,13 @@
 (function(){
   var html = document.documentElement;
   html.classList.add('locked');
+
+  document.addEventListener('contextmenu', function(e){
+    if(e.target.tagName === 'IMG') e.preventDefault();
+  });
+  document.addEventListener('dragstart', function(e){
+    if(e.target.tagName === 'IMG') e.preventDefault();
+  });
 
   var overlay = document.getElementById('introOverlay');
   var opened = false;
