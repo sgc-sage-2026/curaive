@@ -352,6 +352,12 @@
   .gb-item .time{font-size:11px; color:var(--ink-2);}
   .gb-item .msg{font-size:13.5px; color:var(--ink-strong); line-height:1.6; white-space:pre-wrap;}
   .gb-empty, .gb-status{text-align:center; font-size:13px; color:var(--ink-2); padding:20px 0;}
+  .gb-more{
+    display:block; margin:14px auto 0; padding:10px 24px; border:1px solid var(--line);
+    background:transparent; color:var(--ink); font-size:12.5px; letter-spacing:.03em;
+    border-radius:20px; cursor:pointer;
+  }
+  .gb-more:active{background:var(--paper-panel);}
 
   /* ---------- share ---------- */
   .share{background:var(--paper-panel); text-align:center;}
@@ -561,6 +567,7 @@
     <div class="gb-list" id="gbList">
       <div class="gb-status">방명록을 불러오는 중이에요…</div>
     </div>
+    <button id="gbMore" class="gb-more" hidden>더보기</button>
   </section>
 
   <section class="share reveal">
@@ -800,10 +807,15 @@
     return mm + '.' + dd + ' ' + hh + ':' + mi;
   }
 
-  var gbQuery = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'), limit(100));
-  onSnapshot(gbQuery, function(snap){
+  var gbPageSize = 5;
+  var gbLimit = gbPageSize;
+  var gbUnsub = null;
+  var moreBtn = document.getElementById('gbMore');
+
+  function renderGuestbook(snap){
     if(snap.empty){
       listEl.innerHTML = '<div class="gb-empty">첫 축하 메시지를 기다리고 있어요</div>';
+      moreBtn.hidden = true;
       return;
     }
     var html = '';
@@ -814,9 +826,22 @@
         '</span><span class="time">' + time + '</span></div><div class="msg">' + escapeHtml(data.message || '') + '</div></div>';
     });
     listEl.innerHTML = html;
-  }, function(err){
-    listEl.innerHTML = '<div class="gb-status">방명록을 불러오지 못했어요</div>';
-    console.error(err);
+    moreBtn.hidden = snap.size < gbLimit;
+  }
+
+  function subscribeGuestbook(){
+    if(gbUnsub) gbUnsub();
+    var gbQuery = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'), limit(gbLimit));
+    gbUnsub = onSnapshot(gbQuery, renderGuestbook, function(err){
+      listEl.innerHTML = '<div class="gb-status">방명록을 불러오지 못했어요</div>';
+      console.error(err);
+    });
+  }
+  subscribeGuestbook();
+
+  moreBtn.addEventListener('click', function(){
+    gbLimit += gbPageSize;
+    subscribeGuestbook();
   });
 
   submitBtn.addEventListener('click', function(){
