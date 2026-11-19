@@ -713,7 +713,7 @@
 
   /* share section */
   document.getElementById('copyLinkBtn').addEventListener('click', function(){
-    var shortUrl = 'https://han.gl/h3B4t';
+    var shortUrl = location.href;
     copyText(shortUrl).then(function(){
       toast('링크가 복사되었습니다');
     }).catch(function(){
